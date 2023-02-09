@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import InputDatePicker from "./InputDatePicker/InputDatePicker";
 import InputButtons from "./InputButtons";
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext } from "react";
 import StateContext from "./StateContext";
 import { useNavigate } from "react-router-dom";
 import format from "date-fns/format";
@@ -65,34 +65,40 @@ const Price = styled.p`
 
 function CreatePageBody(props) {
   const [price, setPrice] = useState("0");
-  const { active } = props;
+  const { active, isExpend } = props;
   const [text, setText] = useState("");
   const [date, setDate] = useState(new Date());
-  const { states, setStates } = useContext(StateContext);
+  const { states, setStates, isUpData, setIsUpData } = useContext(StateContext);
   const navigate = useNavigate();
   function handleOKClick() {
     if (states) {
-      setStates([
-        ...states,
-        {
-          id: states.sort((a,b)=>a.id-b.id)[states.length - 1].id + 1,
-          date: format(date, "yyyy年MM月dd日"),
-          item: active.name,
-          content: text,
-          price: "-" + price,
-        },
-      ].sort((a,b)=>a.date-b.date));
+      setStates(
+        [
+          ...states,
+          {
+            id: 0,
+            localid: Number(states.sort((a, b) => a.localid - b.localid)[states.length - 1].localid) + 1,
+            date: format(date, "yyyy年MM月dd日"),
+            item: active.name,
+            content: text,
+            price: isExpend ? "-" + price : price,
+          },
+        ].sort((a, b) => (a.date < b.date ? 1 : -1))
+      );
     } else {
-      setStates([ {
-          id:  1,
+      setStates([
+        {
+          id: 0,
+          localid: 1,
           date: format(date, "yyyy年MM月dd日"),
           item: active.name,
           content: text,
-          price: "-" + price,
+          price: isExpend ? "-" + price : price,
         },
       ]);
     }
-    
+    setIsUpData(false)
+    window.localStorage.setItem("isUpData", false)
     setPrice("0");
     setText("");
     navigate("/", { replace: true });

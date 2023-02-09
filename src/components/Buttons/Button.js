@@ -68,16 +68,24 @@ width: 100%;
 border-radius: 50%;
 border: 1px solid ${Theme.color_black};
 font-size: 20px;
-color: black
+color: black;
+box-shadow: 1px 1px 3px black;
+&:active {
+  box-shadow: 0px 0px 1px black;
+}
 `;
 
 const Button6 =styled(Button5)`
 background: ${Theme.color_yellow1};
 color: ${Theme.color_white};
+box-shadow: 1px 1px 3px black;
 
 &:hover {
   background: ${Theme.color_white};
   color: ${Theme.color_yellow1};
+}
+&:active {
+  box-shadow: 0px 0px 1px black;
 }
 `
 
@@ -85,10 +93,14 @@ const Button7 =styled(Button5)`
 border-radius: 30px;
 background: ${Theme.color_red};
 color: ${Theme.color_white};
+box-shadow: 1px 1px 3px black;
 
 &:hover {
   background: ${Theme.color_white};
   color: ${Theme.color_red};
+}
+&:active {
+  box-shadow: 0px 0px 1px black;
 }
 `
 

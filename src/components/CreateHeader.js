@@ -82,20 +82,22 @@ const Space = styled.div`
   margin: 15px;
 `;
 
-export default function CreateHeader() {
+export default function CreateHeader(props) {
 const [active, setActive] = useState(false)
-
+const {setIsExpend} = props
 const handleClick1 = () => {
   if (active) {
   setActive(false)
+  setIsExpend(true)
   }
 }
 const handleClick2 = () => {
   if (!active) {
   setActive(true)
+  setIsExpend(false)
   }
 }
-
+ 
   return (
     <HeaderContainer >
       <Icon to="/">

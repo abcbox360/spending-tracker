@@ -1,10 +1,11 @@
-import format from "date-fns/format";
+import { useJwt } from "react-jwt";
 
-function CreateNewStates(states) {
+function CreateNewStates(props) {
   let newState = [];
   let check = "";
   let x = -1;
-  if (states){
+  if (props){
+    const states = props
     for (let i = 0; i < states.length; i++) {
       if (check !== states[i].date) {
         x++;
@@ -12,7 +13,7 @@ function CreateNewStates(states) {
           date: states[i].date,
           data: [
             {
-              id: states[i].id,
+              localid: states[i].localid,
               name: states[i].item,
               content: states[i].content,
               price: Number(states[i].price),
@@ -26,7 +27,7 @@ function CreateNewStates(states) {
           data: [
             ...newState[x].data,
             {
-              id: states[i].id,
+              localid: states[i].localid,
               name: states[i].item,
               content: states[i].content,
               price: Number(states[i].price),

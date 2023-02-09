@@ -5,11 +5,14 @@ import {
   AiOutlineShoppingCart,
   AiOutlineAppstore,
   AiOutlineCar,
+  AiOutlineStock
 } from "react-icons/ai";
-import { BsHouseDoor, BsPhone, BsGift } from "react-icons/bs";
+import { BsHouseDoor, BsPhone, BsGift, BsCashCoin } from "react-icons/bs";
 import { BiCookie } from "react-icons/bi";
 import { FaRegHospital } from "react-icons/fa";
 import { GrGamepad } from "react-icons/gr";
+import { RiMoneyDollarCircleLine, RiBankLine } from "react-icons/ri";
+import { CiMoneyCheck1 } from "react-icons/ci";
 
 const CreateBuyItems = styled.div`
   display: grid;
@@ -44,7 +47,7 @@ const Item = styled.button`
 `;
 
 export default function CreateList(props) {
-  const { active, setActive } = props;
+  const { active, setActive, isExpend } = props;
   const items = [
     { name: "食物", icon: <IoFastFoodOutline size="30px" /> },
     { name: "飲品", icon: <FiCoffee size="30px" /> },
@@ -59,13 +62,23 @@ export default function CreateList(props) {
     { name: "禮物", icon: <BsGift size="30px" /> },
     { name: "其他", icon: <AiOutlineAppstore size="30px" /> },
   ];
+const incomeItems = [
+  {name: "薪水", icon: <BsCashCoin size="30px" />},
+  {name: "獎金", icon: <CiMoneyCheck1 size="30px" />},
+  {name: "回饋", icon: <RiMoneyDollarCircleLine size="30px" />},
+  {name: "股息", icon: <AiOutlineStock size="30px" />},
+  {name: "投資", icon: <RiBankLine size="30px" />}
+]
   const handleClick = (e) => {
+    if(isExpend){
     setActive(...items.filter((item) => item.name === e.target.id));
+    }else {
+      setActive(...incomeItems.filter((item) => item.name === e.target.id));
+    }
   };
-
   return (
     <CreateBuyItems>
-      {items.map((item) => (
+      {isExpend? items.map((item) => (
         <Item
           key={item.name}
           $active={active.name === item.name}
@@ -75,7 +88,18 @@ export default function CreateList(props) {
           {item.icon}
           {item.name}
         </Item>
-      ))}
+      )):incomeItems.map((item) => (
+        <Item
+          key={item.name}
+          $active={active.name === item.name}
+          id={item.name}
+          onClick={handleClick}
+        >
+          {item.icon}
+          {item.name}
+        </Item>
+        ))
+      }
     </CreateBuyItems>
   );
 }

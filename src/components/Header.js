@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import {useState} from "react"
+import { useState, useEffect, useRef } from "react";
 import InputDatePicker from "./InputDatePicker/InputDatePicker";
-import LeftIndex from "./LeftIndex"
+import LeftIndex from "./LeftIndex";
 const HeaderContainer = styled.div`
   margin: 0;
   padding: 0;
@@ -111,15 +111,46 @@ const CreateItemButton = styled(Link)`
   }
 `;
 
-export default function Header() {
-  const [show, setShow] = useState(false)
-const handleClick = () => {
-  setShow(true)
-}
+const BackButton = styled.button`
+position: fixed;
+width: 100vw;
+height: 100vh;
+z-index: 2;
+background:rgba(0, 0, 0, 0.2);
+border: none;
 
+`
+
+export default function Header() {
+  const [show, setShow] = useState(false);
+  const [tran, setTran] = useState(false);
+  const x = useRef(1);
+  function handleClick() {
+    if (!show) {
+      setShow(!show);
+      x.current = 2;
+    }
+   else if (tran) {
+      setTran(!tran);
+      x.current = 3;
+    }
+  }
+  useEffect(() => {
+    if (x.current >= 2) {
+      if (show) {
+        if (x.current === 2) {
+          setTran(!tran);
+        } else {
+          setTimeout(() => setShow(!show), 300);
+        }
+      }
+    }
+    x.current = 1;
+  }, [show, tran]);
   return (
     <HeaderContainer>
-      {show && <LeftIndex />}
+      {show && <LeftIndex tran={tran} setTran={setTran} x={x} />}
+      {show && tran && <BackButton onClick={handleClick} />}
       <HeaderTop>
         <Index onClick={handleClick}>
           <IndexFig />
