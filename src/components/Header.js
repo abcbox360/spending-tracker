@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import InputDatePicker from "./InputDatePicker/InputDatePicker";
 import LeftIndex from "./LeftIndex";
+import LoginPage from "../pages/LoginPage";
+import StateContext from "./StateContext";
+import { useContext} from "react"
+
 const HeaderContainer = styled.div`
   margin: 0;
   padding: 0;
@@ -124,6 +128,7 @@ border: none;
 export default function Header() {
   const [show, setShow] = useState(false);
   const [tran, setTran] = useState(false);
+  const { login } = useContext(StateContext);
   const x = useRef(1);
   function handleClick() {
     if (!show) {
@@ -168,6 +173,7 @@ export default function Header() {
         <div />
         <div />
       </CreateItemButton>
+        {login && <LoginPage />}
     </HeaderContainer>
   );
 }

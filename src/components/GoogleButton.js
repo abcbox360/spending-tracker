@@ -39,7 +39,7 @@ margin: 20px auto 0 auto;
 function GoogleButton () {
   const { setToken, token, setEmail } = useContext(StateContext);
   const login = useGoogleLogin({
-    onSuccess: codeResponse => {getToken(codeResponse.code).then(data=> {setToken(data.id_token); window.localStorage.setItem("token", data.id_token)})},
+    onSuccess: codeResponse => {getToken(codeResponse.code).then(data=> {setToken(data.id_token)})},
     flow: 'auth-code',
   });
 

@@ -50,14 +50,21 @@ function UpdateButton(props) {
     useContext(StateContext);
   return (
     <UpdateButtonContainer>
-      {isUpData ? (
-        <UpDataOkButton><BsCloudCheck />上傳完成</UpDataOkButton>
-      ) : (<ButtonBody
-        onClick={() => {upDate(states, email, setStates, setIsUpData);window.localStorage.setItem("isUpData", true);}}
-      >
-        <BsCloudArrowUp />
-        上傳資料
-      </ButtonBody>
+      {isUpData === 'true' ? (
+        <UpDataOkButton>
+          <BsCloudCheck />
+          上傳完成
+        </UpDataOkButton>
+      ) : (
+        <ButtonBody
+          onClick={() => {
+            upDate(states, email, setStates, setIsUpData);
+            window.localStorage.setItem("isUpData", true);
+          }}
+        >
+          <BsCloudArrowUp />
+          上傳資料
+        </ButtonBody>
       )}
     </UpdateButtonContainer>
   );

@@ -5,7 +5,6 @@ import ProfileInfo from "./ProfileInfo"
 import { useContext} from "react"
 import StateContext from "./StateContext";
 import UpdateButton from "./UpdateButton"
-import LoginPage from "../pages/LoginPage";
 
 
 const LeftIndexContainer = styled.div`
@@ -49,7 +48,6 @@ return (
       <GoogleButton />
         </GoogleOAuthProvider>
         </Back>
-        <LoginPage />
     </LeftIndexContainer>
   );
 }

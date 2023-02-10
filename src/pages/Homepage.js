@@ -188,7 +188,7 @@ export default function Homepage() {
     {name: "投資", icon: <RiBankLine size="30px" />}
   ];
   const { states, setStates, setIsUpData } = useContext(StateContext);
-  const [active, setActive ] = useState(0)
+  const [active, setActive ] = useState(-2)
   const newState = CreateNewStates(states);
   useEffect(() => {
     if (states !== null) {
@@ -202,7 +202,7 @@ export default function Homepage() {
   let expend = 0;
   let income = 0;
   if (states) {
-    for (let state of states) {
+    for (let state of states.filter(prop=>prop.localid !== -1)) {
       if (state.price > 0) {
         income += Number(state.price);
       } else if (state.price < 0) {
@@ -211,7 +211,13 @@ export default function Homepage() {
     }
   }
   const handleClickDelete = (e) => {
-    setStates(states.filter((state) => Number(state.localid) !== Number(e.target.name)))
+    const item = states.map((state) =>{ 
+      if (Number(state.localid) === Number(e.target.name)){
+        return {...state,localid: -1}
+    }else {
+      return state
+    }})
+    setStates(item )
     setIsUpData(false)
     window.localStorage.setItem("isUpData", false)
   }
@@ -248,7 +254,7 @@ export default function Homepage() {
               </p>
             </ItemTitle>
             {state.data.map((item) => (
-              <Item key={item.localid} id={item.localid} active={active==item.localid} onClick={(e) => {active===e.target.id? setActive(0): setActive(e.target.id);}}>
+              <Item key={item.localid} id={item.localid} active={active==item.localid} onClick={(e) => {active===e.target.id? setActive(-2): setActive(e.target.id);}}>
                 <IconName>
                   <Icon>
                     {items.filter((icon) => icon.name === item.name)[0].icon}
