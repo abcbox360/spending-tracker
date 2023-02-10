@@ -115,7 +115,7 @@ export default function LoginPage() {
       upDate(states, email, setStates, setIsUpData);
       setLogin("");
     } else if (active === "cloud") window.localStorage.setItem("token", token);
-    setIsUpData(true);
+    setIsUpData("true");
     setStates(login);
     setLogin("");
   };
@@ -138,7 +138,7 @@ export default function LoginPage() {
           <Left active={active === "local"} onClick={() => setActive("local")}>
             <p>本地資料</p>
             <BsJournalText />
-            <p>{states.filter(prop=>prop.localid !== -1).length}筆紀錄</p>
+            <p>{states?states.filter(prop=>prop.localid !== -1).length:0}筆紀錄</p>
           </Left>
           <Right active={active === "cloud"} onClick={() => setActive("cloud")}>
             <p>雲端資料</p>
