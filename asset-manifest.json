@@ -1,0 +1,10 @@
+{
+  "files": {
+    "main.js": "/spending-tracker/static/js/main.ca7ac012.js",
+    "index.html": "/spending-tracker/index.html",
+    "main.ca7ac012.js.map": "/spending-tracker/static/js/main.ca7ac012.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.ca7ac012.js"
+  ]
+}
