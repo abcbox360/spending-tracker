@@ -2,6 +2,7 @@ import StateContext from "./StateContext";
 import { useState, useEffect } from "react";
 import { useJwt } from "react-jwt";
 import { getDate } from "../Api";
+import format from "date-fns/format";
 
 function DataManager(props) {
   const [states, setStates] = useState(null);
@@ -11,7 +12,9 @@ function DataManager(props) {
   const [picture, setPicture] = useState("");
   const [isUpData, setIsUpData] = useState(false);
   const [login, setLogin] = useState(false);
-  const { decodedToken, isExpired } = useJwt(token);
+  const [year, setYear] = useState(format(new Date(), "yyyy"));
+  const [month, setMonth] = useState(format(new Date(), "MM"));
+  const { decodedToken } = useJwt(token);
   useEffect(() => {
     if (decodedToken) {
       setEmail(decodedToken.email);
@@ -60,6 +63,10 @@ function DataManager(props) {
         setIsUpData,
         login: login,
         setLogin,
+        year: year,
+        setYear,
+        month: month,
+        setMonth,
       }}
     >
       {props.children}

@@ -7,10 +7,10 @@ import LoginPage from "../pages/LoginPage";
 
 const Root = styled.div``;
 
-function App(props) {
+function App() {
   return (
     <Root>
-      <DataManager onChange={props.onChange}>
+      <DataManager>
         <HashRouter> 
           <Routes>
             <Route exact path="*" element={<HomePage />} />

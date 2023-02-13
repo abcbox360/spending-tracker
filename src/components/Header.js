@@ -1,15 +1,17 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
-import InputDatePicker from "./InputDatePicker/InputDatePicker";
+import { useState, useRef } from "react";
+import MonthPickerButton from "./MonthPicker/MonthPickerButton";
 import LeftIndex from "./LeftIndex";
 import LoginPage from "../pages/LoginPage";
 import StateContext from "./StateContext";
-import { useContext} from "react"
+import { useContext } from "react";
+import useTransition from "./useTransition";
 
 const HeaderContainer = styled.div`
   margin: 0;
   padding: 0;
+  text-align: center;
 `;
 
 const HeaderTop = styled.div`
@@ -26,29 +28,47 @@ const HeaderTop = styled.div`
   right: 0;
   z-index: 5;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2);
+  @media screen and (min-width : 820px ) {
+    height: 60px;
+    font-size: 30px;
+  }
 `;
 
 const Index = styled.div`
-  margin: auto 15px;
+  margin: auto 0;
+  width: 70px;
+  padding: 0 15px;
+  height: 40px;
+  cursor: pointer;
+  @media screen and (min-width : 820px ) {
+    width: 110px;
+    height: 60px;
+    padding: 0 25px;
+    margin: auto 0;
+  }
 `;
 
 const IndexFig = styled.div`
-  width: 20px;
-  height: 3px;
-  margin: 4px;
+  width: 30%;
+  height: 5%;
+  margin-top: 14%;
   border-radius: 5px;
   background: rgb(0, 0, 0);
   &:nth-of-type(2n) {
-    width: 15px;
+    width: 20%;
+    margin-top: 10%;
   }
   &:nth-of-type(3) {
-    width: 10px;
+    width: 10%;
+    margin-top: 10%;
   }
+
 `;
 
 const Nav = styled.div`
   display: flex;
   justify-content: flex-end;
+  margin-right: 5px;
 `;
 
 const LinkButton = styled.div`
@@ -60,8 +80,9 @@ const LinkButton = styled.div`
   font-size: 14px;
   font-weight: 900;
   text-decoration: none;
+  cursor: pointer;
   ${(props) =>
-    props.$active &&
+    props.active &&
     `
     color: #fff;
     border-radius: 10px;
@@ -70,6 +91,11 @@ const LinkButton = styled.div`
 
   &:first-of-type {
     margin-right: 5px;
+  }
+  
+  @media screen and (min-width : 820px ) {
+    font-size: 24px;
+    width: 60px;
   }
 `;
 
@@ -86,8 +112,8 @@ const CreateItemButton = styled(Link)`
   }
 
   & *:nth-child(1) {
-    height: 50px;
-    width: 50px;
+    height: 99%;
+    width: 99%;
     border: 1px solid black;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     border-radius: 50%;
@@ -113,45 +139,59 @@ const CreateItemButton = styled(Link)`
     height: 70%;
     border-radius: 5px;
   }
+  @media screen and (min-width : 820px ) {
+    height: 72px;
+    width: 72px;
+    left: calc(50% - 35px);
+  }
 `;
 
 const BackButton = styled.button`
-position: fixed;
-width: 100vw;
-height: 100vh;
-z-index: 2;
-background:rgba(0, 0, 0, 0.2);
-border: none;
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  left: 0;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.2);
+  border: none;
+`;
 
-`
-
-export default function Header() {
+export default function Header(props) {
+  const {
+    showMonth,
+    transition,
+    setShowMonth,
+    setTransition,
+    monthFilter,
+    setMonthFilter,
+  } = props;
   const [show, setShow] = useState(false);
   const [tran, setTran] = useState(false);
   const { login } = useContext(StateContext);
   const x = useRef(1);
+  const y = useRef(1);
   function handleClick() {
     if (!show) {
       setShow(!show);
       x.current = 2;
-    }
-   else if (tran) {
+    } else if (tran) {
       setTran(!tran);
       x.current = 3;
     }
   }
-  useEffect(() => {
-    if (x.current >= 2) {
-      if (show) {
-        if (x.current === 2) {
-          setTran(!tran);
-        } else {
-          setTimeout(() => setShow(!show), 300);
-        }
-      }
+  useTransition(x, setShow, setTran);
+
+  function handleClickSelectMonth() {
+    if (!showMonth) {
+      setShowMonth(!showMonth);
+      y.current = 2;
+    } else if (transition) {
+      setTransition(!transition);
+      y.current = 3;
     }
-    x.current = 1;
-  }, [show, tran]);
+  }
+  useTransition(y, setShowMonth, setTransition);
+
   return (
     <HeaderContainer>
       {show && <LeftIndex tran={tran} setTran={setTran} x={x} />}
@@ -162,10 +202,14 @@ export default function Header() {
           <IndexFig />
           <IndexFig />
         </Index>
-        <InputDatePicker></InputDatePicker>
+        <MonthPickerButton
+          transition={transition}
+          showMonth={showMonth}
+          handleClickSelectMonth={handleClickSelectMonth}
+        />
         <Nav>
-          <LinkButton $active>月</LinkButton>
-          <LinkButton>日</LinkButton>
+          <LinkButton active={monthFilter} onClick={() => setMonthFilter(true)}>月</LinkButton>
+          <LinkButton active={!monthFilter} onClick={() => setMonthFilter(false)}>全部</LinkButton>
         </Nav>
       </HeaderTop>
       <CreateItemButton to="Create">
@@ -173,7 +217,7 @@ export default function Header() {
         <div />
         <div />
       </CreateItemButton>
-        {login && <LoginPage />}
+      {login && <LoginPage />}
     </HeaderContainer>
   );
 }

@@ -1,6 +1,4 @@
 import styled from "styled-components";
-import InputDatePicker from "./InputDatePicker/InputDatePicker";
-import { IoFastFoodOutline, IoPeopleOutline } from "react-icons/io5";
 import { Button5, Button6, Button7 } from "./Buttons/Button";
 
 const CreatePageBodyContainer = styled.div`
@@ -11,6 +9,14 @@ const CreatePageBodyContainer = styled.div`
   display: flex;
   padding: 10px;
   justify-content: center;
+  @media screen and (min-width : 820px ){
+    padding: 0 5px;
+    margin: 0 30px;
+    & * {
+      font-size: 26px;
+    }
+  }
+  
 `;
 
 const LeftContainer = styled.div`

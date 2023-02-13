@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import GoogleButton from "./GoogleButton"
 import ProfileInfo from "./ProfileInfo"
 import { useContext} from "react"

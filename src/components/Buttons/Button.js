@@ -106,6 +106,7 @@ box-shadow: 1px 1px 3px black;
 
 const InputButton = styled.input`
   width: 80%;
+  height: 30px;
   position: relative;
   text-align: center;
   border-radius: 10px;
@@ -113,7 +114,10 @@ const InputButton = styled.input`
   margin: 10px auto;
   left: 10%;
   background: #fff4b8;
-  
+  @media screen and (min-width : 820px ){
+    height: 50px;
+    font-size: 26px;
+  }
 `;
 
 export { Button, Button2, Button3, Button4, Button5, Button6, Button7, InputButton };

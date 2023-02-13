@@ -5,7 +5,7 @@ import {
   AiOutlineShoppingCart,
   AiOutlineAppstore,
   AiOutlineCar,
-  AiOutlineStock
+  AiOutlineStock,
 } from "react-icons/ai";
 import { BsHouseDoor, BsPhone, BsGift, BsCashCoin } from "react-icons/bs";
 import { BiCookie } from "react-icons/bi";
@@ -18,7 +18,6 @@ const CreateBuyItems = styled.div`
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(12, 1fr);
-  row-gap: 3vh;
   margin: 70px auto 5% auto;
   align-items: center;
   justify-items: center;
@@ -26,12 +25,13 @@ const CreateBuyItems = styled.div`
 `;
 const Item = styled.button`
   width: 10vh;
-  height: 6vh;
+  height: 9vh;
   border: none;
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: radial-gradient(at 40% 20%, #808080 1px, white 20%);
+  justify-content: center;
+  background: radial-gradient(at 40% 40%, #808080 1px, white 20%);
   margin: 0;
   cursor: pointer;
   position: relative;
@@ -39,67 +39,81 @@ const Item = styled.button`
   ${(props) =>
     props.$active &&
     `
-    background: radial-gradient(at 40% 20%, #FFD700 1px, white 20%);
+    background: radial-gradient(at 40% 40%, #FFD700 1px, white 20%);
   `}
   & * {
+    font-size: 30px;
     pointer-events: none;
+  }
+  & p {
+    margin: 0;
+    font-size: 12px;
+  }
+  @media screen and (min-width : 820px ) {
+    & * {
+      font-size: 40px;
+    }
+    & p {
+      font-size: 26px;
+    }
   }
 `;
 
 export default function CreateList(props) {
-  const { active, setActive, isExpend } = props;
+  const { activeitem, setActiveItem, isExpend } = props;
   const items = [
-    { name: "食物", icon: <IoFastFoodOutline size="30px" /> },
-    { name: "飲品", icon: <FiCoffee size="30px" /> },
-    { name: "點心", icon: <BiCookie size="30px" /> },
-    { name: "日用品", icon: <AiOutlineShoppingCart size="30px" /> },
-    { name: "交通", icon: <AiOutlineCar size="30px" /> },
-    { name: "房租", icon: <BsHouseDoor size="30px" /> },
-    { name: "醫療", icon: <FaRegHospital size="30px" /> },
-    { name: "娛樂", icon: <GrGamepad size="30px" /> },
-    { name: "電子產品", icon: <BsPhone size="30px" /> },
-    { name: "社交", icon: <IoPeopleOutline size="30px" /> },
-    { name: "禮物", icon: <BsGift size="30px" /> },
-    { name: "其他", icon: <AiOutlineAppstore size="30px" /> },
+    { name: "食物", icon: <IoFastFoodOutline /> },
+    { name: "飲品", icon: <FiCoffee /> },
+    { name: "點心", icon: <BiCookie /> },
+    { name: "日用品", icon: <AiOutlineShoppingCart /> },
+    { name: "交通", icon: <AiOutlineCar /> },
+    { name: "房租", icon: <BsHouseDoor /> },
+    { name: "醫療", icon: <FaRegHospital /> },
+    { name: "娛樂", icon: <GrGamepad /> },
+    { name: "電子產品", icon: <BsPhone /> },
+    { name: "社交", icon: <IoPeopleOutline /> },
+    { name: "禮物", icon: <BsGift /> },
+    { name: "其他", icon: <AiOutlineAppstore /> },
   ];
-const incomeItems = [
-  {name: "薪水", icon: <BsCashCoin size="30px" />},
-  {name: "獎金", icon: <CiMoneyCheck1 size="30px" />},
-  {name: "回饋", icon: <RiMoneyDollarCircleLine size="30px" />},
-  {name: "股息", icon: <AiOutlineStock size="30px" />},
-  {name: "投資", icon: <RiBankLine size="30px" />}
-]
+  const incomeItems = [
+    { name: "薪水", icon: <BsCashCoin /> },
+    { name: "獎金", icon: <CiMoneyCheck1 /> },
+    { name: "回饋", icon: <RiMoneyDollarCircleLine /> },
+    { name: "股息", icon: <AiOutlineStock /> },
+    { name: "投資", icon: <RiBankLine /> },
+  ];
   const handleClick = (e) => {
-    if(isExpend){
-    setActive(...items.filter((item) => item.name === e.target.id));
-    }else {
-      setActive(...incomeItems.filter((item) => item.name === e.target.id));
+    if (isExpend) {
+      setActiveItem(...items.filter((item) => item.name === e.target.id));
+    } else {
+      setActiveItem(...incomeItems.filter((item) => item.name === e.target.id));
     }
   };
   return (
     <CreateBuyItems>
-      {isExpend? items.map((item) => (
-        <Item
-          key={item.name}
-          $active={active.name === item.name}
-          id={item.name}
-          onClick={handleClick}
-        >
-          {item.icon}
-          {item.name}
-        </Item>
-      )):incomeItems.map((item) => (
-        <Item
-          key={item.name}
-          $active={active.name === item.name}
-          id={item.name}
-          onClick={handleClick}
-        >
-          {item.icon}
-          {item.name}
-        </Item>
-        ))
-      }
+      {isExpend
+        ? items.map((item) => (
+            <Item
+              key={item.name}
+              $active={activeitem.name === item.name}
+              id={item.name}
+              onClick={handleClick}
+            >
+              {item.icon}
+              <p>{item.name}</p>
+            </Item>
+          ))
+        : incomeItems.map((item) => (
+            <Item
+              key={item.name}
+              $active={activeitem.name === item.name}
+              id={item.name}
+              onClick={handleClick}
+            >
+              {item.icon}
+              <p>{item.name}</p>
+            </Item>
+          ))}
     </CreateBuyItems>
   );
 }

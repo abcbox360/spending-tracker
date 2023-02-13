@@ -27,6 +27,14 @@ const ButtonBody = styled.button`
   &:active {
     box-shadow: 0px 0px 1px black;
   }
+  @media screen and (min-width : 820px ){
+    width: 180px;
+    height: 70px;
+    font-size: 26px;
+    & *:nth-child(1) {
+      font-size: 34px;
+    }
+  }
 `;
 
 const UpDataOkButton = styled.div`
@@ -43,6 +51,14 @@ const UpDataOkButton = styled.div`
   margin: 30px auto 0 auto;
   box-shadow: 0px 0px 1px black;
   filter: brightness(0.8);
+  @media screen and (min-width : 820px ){
+    width: 180px;
+    height: 70px;
+    font-size: 26px;
+    & *:nth-child(1) {
+      font-size: 34px;
+    }
+  }
 `;
 
 function UpdateButton(props) {

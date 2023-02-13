@@ -29,6 +29,15 @@ box-shadow: 1px 1px 3px black;
 & *:nth-child(1) {
   margin:  0 10px 0 0;
   padding: 0;
+  font-size: 24px;
+}
+@media screen and (min-width : 820px ){
+  width: 180px;
+  height: 70px;
+  font-size: 26px;
+  & *:nth-child(1) {
+    font-size: 34px;
+  }
 }
 `
 
@@ -49,7 +58,7 @@ function GoogleButton () {
     window.localStorage.setItem("token", "")
   }
   if(!token) {
-  return <GoogleLoginButton onClick={() => login()}><FcGoogle size="28px"/>登入</GoogleLoginButton>
+  return <GoogleLoginButton onClick={() => login()}><FcGoogle/>登入</GoogleLoginButton>
   }else {
     return <GoogleLogoutButton onClick={() => logout()}><FcGoogle/>登出</GoogleLogoutButton>
   }

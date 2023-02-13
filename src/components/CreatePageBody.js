@@ -15,6 +15,7 @@ const CreatePageBodyContainer = styled.div`
   border-top: 1px solid black;
   border-radius: 10px 10px 0 0;
   background: #ffd700;
+
 `;
 
 const TextContainer = styled.div`
@@ -24,21 +25,37 @@ const TextContainer = styled.div`
   border-radius: 10px 10px 0 0;
   display: flex;
   justify-content: space-between;
+  @media screen and (min-width : 820px ){
+    padding: 0 5px;
+    margin: 0 30px;
+  }
 `;
 
 const Icon = styled.div`
-  width: 42px;
+  width: 75px;
   height: 100%;
   border: none;
-  margin: auto 0 auto 10px;
+  margin: auto 0 auto 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  & * {
+    font-size: 30px;
+  }
   & p {
     padding: 0;
     margin: 0;
-    font-size: 15px;
+    font-size: 13px;
+  }
+  @media screen and (min-width : 820px ) {
+    width: 122px;
+    & * {
+      font-size: 40px;
+    }
+    & p {
+      font-size: 24px;
+    }
   }
 `;
 
@@ -65,10 +82,10 @@ const Price = styled.p`
 
 function CreatePageBody(props) {
   const [price, setPrice] = useState("0");
-  const { active, isExpend } = props;
+  const { activeitem, isExpend } = props;
   const [text, setText] = useState("");
   const [date, setDate] = useState(new Date());
-  const { states, setStates, isUpData, setIsUpData } = useContext(StateContext);
+  const { states, setStates, setIsUpData } = useContext(StateContext);
   const navigate = useNavigate();
   function handleOKClick() {
     if (states) {
@@ -79,7 +96,7 @@ function CreatePageBody(props) {
             id: 0,
             localid: Number(states.sort((a, b) => a.localid - b.localid)[states.length - 1].localid) + 1,
             date: format(date, "yyyy年MM月dd日"),
-            item: active.name,
+            item: activeitem.name,
             content: text,
             price: isExpend ? "-" + price : price,
           },
@@ -91,7 +108,7 @@ function CreatePageBody(props) {
           id: 0,
           localid: 1,
           date: format(date, "yyyy年MM月dd日"),
-          item: active.name,
+          item: activeitem.name,
           content: text,
           price: isExpend ? "-" + price : price,
         },
@@ -108,8 +125,8 @@ function CreatePageBody(props) {
       <InputDatePicker setDate={setDate} />
       <TextContainer>
         <Icon>
-          {active.icon}
-          <p>{active.name}</p>
+          {activeitem.icon}
+          <p>{activeitem.name}</p>
         </Icon>
         <Text
           type="text"

@@ -2,7 +2,7 @@ import styled from "styled-components";
 import ProfileInfo from "../components/ProfileInfo";
 import { GrClose } from "react-icons/gr";
 import { BsCloudy, BsJournalText, BsCheck2 } from "react-icons/bs";
-import StateContext from "../components/StateContext";
+import stateContext from "../components/StateContext";
 import { useContext, useState } from "react";
 import { upDate } from "../Api";
 
@@ -107,7 +107,7 @@ export default function LoginPage() {
     setStates,
     email,
     setIsUpData,
-  } = useContext(StateContext);
+  } = useContext(stateContext);
   const [active, setActive] = useState("");
   const hendleOkClick = () => {
     if (active === "local") {

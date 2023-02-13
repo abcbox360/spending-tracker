@@ -1,11 +1,16 @@
-import { useJwt } from "react-jwt";
-
-function CreateNewStates(props) {
+function CreateNewStates(props, year, month, monthFilter) {
   let newState = [];
   let check = "";
   let x = -1;
-  if (props){
-    const states = props.filter(prop=>prop.localid !== -1)
+  let states = []
+  if (props) {
+    if (monthFilter) {
+      states = props
+        .filter((prop) => prop.localid !== -1)
+        .filter((prop) => prop.date.slice(0, 8) === `${year}年${month}月`);
+    } else {
+      states = props.filter((prop) => prop.localid !== -1);
+    }
     for (let i = 0; i < states.length; i++) {
       if (check !== states[i].date) {
         x++;
@@ -37,7 +42,7 @@ function CreateNewStates(props) {
       }
     }
   }
-    return newState;
-  }
+  return newState;
+}
 
 export { CreateNewStates };
