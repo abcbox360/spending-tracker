@@ -138,7 +138,10 @@ export default function LoginPage() {
           <Left active={active === "local"} onClick={() => setActive("local")}>
             <p>本地資料</p>
             <BsJournalText />
-            <p>{states?states.filter(prop=>prop.localid !== -1).length:0}筆紀錄</p>
+            <p>
+              {states ? states.filter((prop) => prop.localid !== -1).length : 0}
+              筆紀錄
+            </p>
           </Left>
           <Right active={active === "cloud"} onClick={() => setActive("cloud")}>
             <p>雲端資料</p>

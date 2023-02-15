@@ -1,18 +1,5 @@
 import styled from "styled-components";
-import { IoFastFoodOutline, IoPeopleOutline } from "react-icons/io5";
-import { FiCoffee } from "react-icons/fi";
-import {
-  AiOutlineShoppingCart,
-  AiOutlineAppstore,
-  AiOutlineCar,
-  AiOutlineStock,
-} from "react-icons/ai";
-import { BsHouseDoor, BsPhone, BsGift, BsCashCoin } from "react-icons/bs";
-import { BiCookie } from "react-icons/bi";
-import { FaRegHospital } from "react-icons/fa";
-import { GrGamepad } from "react-icons/gr";
-import { RiMoneyDollarCircleLine, RiBankLine } from "react-icons/ri";
-import { CiMoneyCheck1 } from "react-icons/ci";
+import ItemIcon from "../components/ItemIcon";
 
 const CreateBuyItems = styled.div`
   display: grid;
@@ -49,7 +36,7 @@ const Item = styled.button`
     margin: 0;
     font-size: 12px;
   }
-  @media screen and (min-width : 820px ) {
+  @media screen and (min-width: 820px) {
     & * {
       font-size: 40px;
     }
@@ -62,31 +49,24 @@ const Item = styled.button`
 export default function CreateList(props) {
   const { activeitem, setActiveItem, isExpend } = props;
   const items = [
-    { name: "食物", icon: <IoFastFoodOutline /> },
-    { name: "飲品", icon: <FiCoffee /> },
-    { name: "點心", icon: <BiCookie /> },
-    { name: "日用品", icon: <AiOutlineShoppingCart /> },
-    { name: "交通", icon: <AiOutlineCar /> },
-    { name: "房租", icon: <BsHouseDoor /> },
-    { name: "醫療", icon: <FaRegHospital /> },
-    { name: "娛樂", icon: <GrGamepad /> },
-    { name: "電子產品", icon: <BsPhone /> },
-    { name: "社交", icon: <IoPeopleOutline /> },
-    { name: "禮物", icon: <BsGift /> },
-    { name: "其他", icon: <AiOutlineAppstore /> },
+    "食物",
+    "飲品",
+    "點心",
+    "交通",
+    "房租",
+    "醫療",
+    "娛樂",
+    "電子產品",
+    "社交",
+    "禮物",
+    "其他",
   ];
-  const incomeItems = [
-    { name: "薪水", icon: <BsCashCoin /> },
-    { name: "獎金", icon: <CiMoneyCheck1 /> },
-    { name: "回饋", icon: <RiMoneyDollarCircleLine /> },
-    { name: "股息", icon: <AiOutlineStock /> },
-    { name: "投資", icon: <RiBankLine /> },
-  ];
+  const incomeItems = ["薪水", "獎金", "回饋", "股息", "投資"];
   const handleClick = (e) => {
     if (isExpend) {
-      setActiveItem(...items.filter((item) => item.name === e.target.id));
+      setActiveItem(...items.filter((item) => item === e.target.id));
     } else {
-      setActiveItem(...incomeItems.filter((item) => item.name === e.target.id));
+      setActiveItem(...incomeItems.filter((item) => item === e.target.id));
     }
   };
   return (
@@ -94,24 +74,24 @@ export default function CreateList(props) {
       {isExpend
         ? items.map((item) => (
             <Item
-              key={item.name}
-              $active={activeitem.name === item.name}
-              id={item.name}
+              key={item}
+              $active={activeitem === item}
+              id={item}
               onClick={handleClick}
             >
-              {item.icon}
-              <p>{item.name}</p>
+              {ItemIcon(item)}
+              <p>{item}</p>
             </Item>
           ))
         : incomeItems.map((item) => (
             <Item
-              key={item.name}
-              $active={activeitem.name === item.name}
-              id={item.name}
+              key={item}
+              $active={activeitem === item}
+              id={item}
               onClick={handleClick}
             >
-              {item.icon}
-              <p>{item.name}</p>
+              {ItemIcon(item)}
+              <p>{item}</p>
             </Item>
           ))}
     </CreateBuyItems>

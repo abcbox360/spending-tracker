@@ -5,7 +5,7 @@ import DateManager from "./DateManager";
 import Input from "./Input";
 
 function InputDatePicker(props) {
-  const {setDate} = props
+  const {setDate, $edit} = props
   const [showPicker, setShowPicker] = useState(false);
   const openPicker = () => {
     setShowPicker(true);
@@ -22,7 +22,7 @@ function InputDatePicker(props) {
   return (
     <FocusManager onFocus={onFocus} onBlur={onBlur}>
       <DateManager onChange={props.onChange}>
-        <Input setDate={setDate} />
+        <Input setDate={setDate} $edit={$edit}/>
         {showPicker && <Picker setShowPicker={setShowPicker} />}
       </DateManager>
     </FocusManager>

@@ -10,6 +10,7 @@ const button_base = styled.button`
   justify-content: center;
   align-items: center;
   transition: color, background-color 0.1s;
+  cursor: pointer;
   color: ${Theme.color_yellow};
 
   &:hover {
@@ -23,7 +24,6 @@ const Button = styled(button_base)`
   padding: 0;
   border-radius: 50%;
   font-size: 18px;
-
   ${(props) =>
     props.isToday &&
     `
@@ -39,8 +39,6 @@ const Button = styled(button_base)`
 
  ${selectedStyle}
 `;
-
-
 
 const Button2 = styled(button_base)`
   height: 100%;
@@ -64,45 +62,69 @@ const Button4 = styled(button_base)`
 `;
 
 const Button5 = styled(button_base)`
-width: 100%;
-border-radius: 50%;
-border: 1px solid ${Theme.color_black};
-font-size: 20px;
-color: black;
-box-shadow: 1px 1px 3px black;
-&:active {
-  box-shadow: 0px 0px 1px black;
-}
+  width: 100%;
+  border-radius: 50%;
+  border: 1px solid ${Theme.color_black};
+  font-size: 20px;
+  color: black;
+  box-shadow: 1px 1px 3px black;
+  &:active {
+    box-shadow: 0px 0px 1px black;
+  }
 `;
 
-const Button6 =styled(Button5)`
-background: ${Theme.color_yellow1};
-color: ${Theme.color_white};
-box-shadow: 1px 1px 3px black;
+const Button6 = styled(Button5)`
+  background: ${Theme.color_yellow1};
+  color: ${Theme.color_white};
+  box-shadow: 1px 1px 3px black;
 
+  &:hover {
+    background: ${Theme.color_white};
+    color: ${Theme.color_yellow1};
+  }
+  &:active {
+    box-shadow: 0px 0px 1px black;
+  }
+`;
+
+const Button7 = styled(Button5)`
+  border-radius: 30px;
+  background: ${Theme.color_red};
+  color: ${Theme.color_white};
+  box-shadow: 1px 1px 3px black;
+
+  &:hover {
+    background: ${Theme.color_white};
+    color: ${Theme.color_red};
+  }
+  &:active {
+    box-shadow: 0px 0px 1px black;
+  }
+`;
+
+const Button8 = styled(Button5)`
+  border-radius: 50%;
+  background: ${Theme.color_red};
+  color: ${Theme.color_white};
+  box-shadow: 1px 1px 3px black;
+  font-weight: 600;
+  &:hover {
+    background: ${Theme.color_white};
+    color: ${Theme.color_red};
+  }
+  &:active {
+    box-shadow: 0px 0px 1px black;
+  }
+
+  ${(props) =>
+    props.color === "green" &&
+    `
+background: ${Theme.color_green};
 &:hover {
-  background: ${Theme.color_white};
-  color: ${Theme.color_yellow1};
+  color: ${Theme.color_green};
 }
-&:active {
-  box-shadow: 0px 0px 1px black;
-}
-`
-
-const Button7 =styled(Button5)`
-border-radius: 30px;
-background: ${Theme.color_red};
-color: ${Theme.color_white};
-box-shadow: 1px 1px 3px black;
-
-&:hover {
-  background: ${Theme.color_white};
-  color: ${Theme.color_red};
-}
-&:active {
-  box-shadow: 0px 0px 1px black;
-}
-`
+`}
+`;
 
 const InputButton = styled.input`
   width: 80%;
@@ -114,10 +136,26 @@ const InputButton = styled.input`
   margin: 10px auto;
   left: 10%;
   background: #fff4b8;
-  @media screen and (min-width : 820px ){
+  @media screen and (min-width: 820px) {
     height: 50px;
     font-size: 26px;
+    ${(props) =>
+      props.$edit &&
+      `
+  height: 30px;
+  font-size: 14px;
+  `}
   }
 `;
 
-export { Button, Button2, Button3, Button4, Button5, Button6, Button7, InputButton };
+export {
+  Button,
+  Button2,
+  Button3,
+  Button4,
+  Button5,
+  Button6,
+  Button7,
+  Button8,
+  InputButton,
+};

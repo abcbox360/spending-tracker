@@ -1,24 +1,13 @@
 import styled from "styled-components";
 import Pie from "../components/Pie";
-import { IoFastFoodOutline, IoPeopleOutline } from "react-icons/io5";
-import { FiCoffee } from "react-icons/fi";
-import {
-  AiOutlineShoppingCart,
-  AiOutlineAppstore,
-  AiOutlineCar,
-  AiOutlineStock,
-} from "react-icons/ai";
-import { BsHouseDoor, BsPhone, BsGift, BsCashCoin } from "react-icons/bs";
-import { BiCookie } from "react-icons/bi";
-import { FaRegHospital } from "react-icons/fa";
-import { GrGamepad } from "react-icons/gr";
-import { RiMoneyDollarCircleLine, RiBankLine } from "react-icons/ri";
-import { CiMoneyCheck1 } from "react-icons/ci";
 import Header from "../components/Header";
 import { useContext, useEffect, useState } from "react";
 import stateContext from "../components/StateContext";
 import { CreateNewStates } from "../components/generator";
 import MonthPicker from "../components/MonthPicker/MonthPicker";
+import EditPage from "../pages/EditPage";
+import format from "date-fns/format";
+import ItemIcon from "../components/ItemIcon";
 
 const HomepageContainer = styled.div`
   position: absolute;
@@ -127,6 +116,7 @@ const Item = styled.div`
   align-items: center;
   padding: 5px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
   cursor: pointer;
   &:last-of-type {
     border: none;
@@ -134,13 +124,19 @@ const Item = styled.div`
   & * {
     pointer-events: none;
   }
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+  }
   @media screen and (min-width: 820px) {
     font-size: 24px;
   }
   ${(props) =>
     props.active &&
     `
-    background: #FFECEC
+    background: #FFECEC;
+    &:hover {
+      background: #FFECEC;
+    }
   `}
 `;
 
@@ -188,58 +184,12 @@ const Remaining = styled.div`
   }
 `;
 
-const DeleteButton = styled.button`
-  height: 40px;
-  width: 40px;
-  border: 1px solid black;
-  border-radius: 50%;
-  position: absolute;
-  background: #ff2d2d;
-  left: calc(100% - 60px);
-  color: white;
-  font-size: 20px;
-  display: none;
-  cursor: pointer;
-  ${(props) =>
-    props.active &&
-    `
-display: block;
-pointer-events: auto;
-`}
-  @media screen and (min-width: 820px) {
-    height: 60px;
-    width: 60px;
-    font-size: 40px;
-    left: calc(100% - 80px);
-  }
-`;
-
 export default function Homepage() {
-  const items = [
-    { name: "食物", icon: <IoFastFoodOutline /> },
-    { name: "飲品", icon: <FiCoffee /> },
-    { name: "點心", icon: <BiCookie /> },
-    { name: "日用品", icon: <AiOutlineShoppingCart /> },
-    { name: "交通", icon: <AiOutlineCar /> },
-    { name: "房租", icon: <BsHouseDoor /> },
-    { name: "醫療", icon: <FaRegHospital /> },
-    { name: "娛樂", icon: <GrGamepad /> },
-    { name: "電子產品", icon: <BsPhone /> },
-    { name: "社交", icon: <IoPeopleOutline /> },
-    { name: "禮物", icon: <BsGift /> },
-    { name: "其他", icon: <AiOutlineAppstore /> },
-    { name: "薪水", icon: <BsCashCoin /> },
-    { name: "獎金", icon: <CiMoneyCheck1 /> },
-    { name: "回饋", icon: <RiMoneyDollarCircleLine /> },
-    { name: "股息", icon: <AiOutlineStock /> },
-    { name: "投資", icon: <RiBankLine /> },
-  ];
-  const { states, setStates, setIsUpData, year, month } =
-    useContext(stateContext);
-  const [active, setActive] = useState(-2);
+  const { states, year, month } = useContext(stateContext);
   const [showMonth, setShowMonth] = useState(false);
   const [transition, setTransition] = useState(false);
   const [monthFilter, setMonthFilter] = useState(true);
+  const [editState, setEditState] = useState(false);
   const newState = CreateNewStates(states, year, month, monthFilter);
   useEffect(() => {
     if (states !== null) {
@@ -263,20 +213,11 @@ export default function Homepage() {
       }
     }
   }
-  const handleClickDelete = (e) => {
-    const item = states.map((state) => {
-      if (Number(state.localid) === Number(e.target.name)) {
-        return { ...state, localid: -1 };
-      } else {
-        return state;
-      }
-    });
-    setStates(item);
-    setIsUpData(false);
-    window.localStorage.setItem("isUpData", false);
-  };
   return (
     <HomepageContainer>
+      {editState && (
+        <EditPage editState={editState} setEditState={setEditState} />
+      )}
       <Header
         monthFilter={monthFilter}
         setMonthFilter={setMonthFilter}
@@ -307,7 +248,7 @@ export default function Homepage() {
         {newState.map((state) => (
           <Items key={state.date}>
             <ItemTitle>
-              <p>{state.date}</p>
+              <p>{format(new Date(state.date), "yyyy年MM月dd日")}</p>
               <p>
                 $
                 {numberComma(
@@ -319,27 +260,20 @@ export default function Homepage() {
               <Item
                 key={item.localid}
                 id={item.localid}
-                active={Number(active) === Number(item.localid)}
+                active={Number(editState.localid) === Number(item.localid)}
                 onClick={(e) => {
-                  Number(active) === Number(e.target.id)
-                    ? setActive(-2)
-                    : setActive(e.target.id);
+                  setEditState(
+                    states.filter(
+                      (state) => Number(state.localid) === Number(e.target.id)
+                    )[0]
+                  );
                 }}
               >
                 <IconName>
-                  <Icon>
-                    {items.filter((icon) => icon.name === item.name)[0].icon}
-                  </Icon>
+                  <Icon>{ItemIcon(item.name)}</Icon>
                   <Name>{item.content ? item.content : item.name}</Name>
                 </IconName>
                 <Price>${numberComma(item.price)}</Price>
-                <DeleteButton
-                  active={Number(active) === Number(item.localid)}
-                  name={item.localid}
-                  onClick={handleClickDelete}
-                >
-                  X
-                </DeleteButton>
               </Item>
             ))}
           </Items>
